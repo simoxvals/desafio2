@@ -4,7 +4,8 @@
 
 using namespace std;
 
-class Surtidor {
+class Surtidor
+{
 private:
     string codigo;
     int litrosE;
@@ -15,24 +16,30 @@ private:
 public:
     Surtidor(string c, int e, int p, int r) : codigo(c), litrosE(e), litrosP(p), litrosR(r), activo(true) {}
 
-    void desactivar() {
+    void desactivar()
+    {
         activo = false;
         cout << "Surtidor " << codigo << " desactivado." << endl;
     }
 
-    void activar() {
+    void activar()
+    {
         activo = true;
         cout << "Surtidor " << codigo << " activado." << endl;
     }
 
-    void simularVenta(char tipoCombustible, int cantidad) {
-        if (!activo) {
+    void simularVenta(char tipoCombustible, int cantidad)
+    {
+        if (!activo)
+        {
             cout << "Surtidor desactivado, no se puede realizar la venta." << endl;
             return;
         }
 
-        if (tipoCombustible == 'E') {
-            if (litrosE >= cantidad) {
+        if (tipoCombustible == 'E')
+        {
+            if (litrosE >= cantidad)
+            {
                 litrosE -= cantidad;
                 cout << "Venta realizada de " << cantidad << " litros de E." << endl;
             } else {
@@ -56,26 +63,26 @@ public:
             cout << "Tipo de combustible no valido." << endl;
         }
     }
-
-    string getCodigo() const { return codigo; }
-    int getLitrosE() const { return litrosE; }
-    int getLitrosP() const { return litrosP; }
-    int getLitrosR() const { return litrosR; }
-    bool isActivo() const { return activo; }
+    string getCodigo() const {return codigo;}
+    int getLitrosE() const {return litrosE;}
+    int getLitrosP() const {return litrosP;}
+    int getLitrosR() const {return litrosR;}
+    bool isActivo() const {return activo;}
 };
 
-class Estacion {
+class Estacion
+{
 private:
+
     string codigo;
     Surtidor* surtidores[10];
     int numeroSurtidores;
     float precioE, precioP, precioR;
-
 public:
     Estacion(string c) : codigo(c), numeroSurtidores(0), precioE(0), precioP(0), precioR(0) {}
-
     void agregarSurtidor(string codigoSurtidor, int litrosE, int litrosP, int litrosR) {
-        if (numeroSurtidores < 10) {
+        if (numeroSurtidores < 10)
+        {
             surtidores[numeroSurtidores] = new Surtidor(codigoSurtidor, litrosE, litrosP, litrosR);
             numeroSurtidores++;
             cout << "Surtidor agregado correctamente." << endl;
@@ -88,6 +95,7 @@ public:
     {
         return codigo;
     }
+
     void eliminarSurtidor(string codigoSurtidor) {
         for (int i = 0; i < numeroSurtidores; i++) {
             if (surtidores[i]->getCodigo() == codigoSurtidor) {
@@ -101,8 +109,25 @@ public:
         cout << "Surtidor no encontrado." << endl;
     }
 
-    void desactivarSurtidor(string codigoSurtidor) {
+    void guardarEstacion()
+    {
+        ofstream archivo("Estaciones.txt", ios::app);
+        archivo << "Estacion: " << codigo << endl;
         for (int i = 0; i < numeroSurtidores; i++) {
+            archivo << "Surtidor: " << surtidores[i]->getCodigo()
+            << " E: " << surtidores[i]->getLitrosE()
+            << " P: " << surtidores[i]->getLitrosP()
+            << " R: " << surtidores[i]->getLitrosR()
+            << " Estado: " << (surtidores[i]->isActivo() ? "Activo" : "Inactivo") << endl;
+        }
+        archivo.close();
+        cout << "Guardado\n" << endl;
+    }
+
+    void desactivarSurtidor(string codigoSurtidor)
+    {
+        for (int i = 0; i < numeroSurtidores; i++)
+        {
             if (surtidores[i]->getCodigo() == codigoSurtidor) {
                 surtidores[i]->desactivar();
                 return;
@@ -111,9 +136,12 @@ public:
         cout << "Surtidor no encontrado." << endl;
     }
 
-    void activarSurtidor(string codigoSurtidor) {
-        for (int i = 0; i < numeroSurtidores; i++) {
-            if (surtidores[i]->getCodigo() == codigoSurtidor) {
+    void activarSurtidor(string codigoSurtidor)
+    {
+        for (int i = 0; i < numeroSurtidores; i++)
+        {
+            if (surtidores[i]->getCodigo() == codigoSurtidor)
+            {
                 surtidores[i]->activar();
                 return;
             }
@@ -137,24 +165,10 @@ public:
         precioR = r;
         cout << "Precios de combustibles actualizados." << endl;
     }
-
-    void guardarEstacion() {
-        ofstream archivo("estaciones.txt", ios::app);
-        archivo << "Estacion: " << codigo << endl;
-        for (int i = 0; i < numeroSurtidores; i++) {
-            archivo << "Surtidor: " << surtidores[i]->getCodigo()
-            << " E: " << surtidores[i]->getLitrosE()
-            << " P: " << surtidores[i]->getLitrosP()
-            << " R: " << surtidores[i]->getLitrosR()
-            << " Activo: " << (surtidores[i]->isActivo() ? "Si" : "No") << endl;
-        }
-        archivo.close();
-        cout << "Datos de la estacion guardados correctamente." << endl;
-    }
 };
 
 void mostrarMenu() {
-    cout << "\nMenu de Gestion de Estaciones\n";
+    cout << "\nMenu de gestion\n";
     cout << "1. Agregar estacion\n";
     cout << "2. Eliminar estacion\n";
     cout << "3. Agregar surtidor a una estacion\n";
@@ -168,32 +182,32 @@ void mostrarMenu() {
     cout << "Seleccione una opcion: ";
 }
 
-void cargarEstaciones(Estacion* estaciones[], int &numeroEstaciones) {
+void cargarEstaciones(Estacion* estaciones[], int &numeroEstaciones)
+{
     ifstream archivo("Estaciones.txt");
     string linea;
-
-    while (getline(archivo, linea)) {
-        if (linea.find("Estacion:") != string::npos) {
-            string codigoEstacion = linea.substr(10); // Extrae el código de la estación
+    while (getline(archivo, linea))
+    {
+        if(linea.find("Estacion:") != string::npos)
+        {
+            string codigoEstacion = linea.substr(10);
             estaciones[numeroEstaciones] = new Estacion(codigoEstacion);
-            numeroEstaciones++;
-        } else if (linea.find("Surtidor:") != string::npos) {
-            // Procesar la línea del surtidor
-            string codigoSurtidor = linea.substr(9, linea.find("E:") - 9); // Extrae el código del surtidor
+            numeroEstaciones ++;
+        } else if (linea.find("Surtidor:") != string::npos)
+        {
+            string codigoSurtidor = linea.substr(9, linea.find("E:") - 9);
             int litrosE = stoi(linea.substr(linea.find("E:") + 3, linea.find("P:") - linea.find("E:") - 3));
             int litrosP = stoi(linea.substr(linea.find("P:") + 3, linea.find("R:") - linea.find("P:") - 3));
             int litrosR = stoi(linea.substr(linea.find("R:") + 3, linea.find("Activo:") - linea.find("R:") - 3));
-
-            // Agregar el surtidor a la última estación leída
             estaciones[numeroEstaciones - 1]->agregarSurtidor(codigoSurtidor, litrosE, litrosP, litrosR);
         }
     }
-
     archivo.close();
-    cout << "Base de datos cargada." << endl;
+    cout<<"Base de datos cargada."<< endl;
 }
 
-int main() {
+int main()
+{
     Estacion* estaciones[10];
     int numeroEstaciones = 0;
     int opcion;
@@ -203,19 +217,23 @@ int main() {
         mostrarMenu();
         cin >> opcion;
 
-        if (opcion == 1) {
+        if (opcion == 1)
+        {
             string codigoEstacion;
             cout << "Ingrese el codigo de la nueva estacion: ";
             cin >> codigoEstacion;
             estaciones[numeroEstaciones] = new Estacion(codigoEstacion);
             numeroEstaciones++;
             cout << "Estacion agregada correctamente." << endl;
-        } else if (opcion == 2) {
+        } else if (opcion == 2)
+        {
             string codigoEstacion;
             cout << "Ingrese el codigo de la estacion a eliminar: ";
             cin >> codigoEstacion;
-            for (int i = 0; i < numeroEstaciones; i++) {
-                if (estaciones[i]->getCodigo() == codigoEstacion) {
+            for (int i = 0; i < numeroEstaciones; i++)
+            {
+                if (estaciones[i]->getCodigo() == codigoEstacion)
+                {
                     delete estaciones[i];
                     estaciones[i] = estaciones[numeroEstaciones - 1];
                     numeroEstaciones--;
@@ -223,7 +241,8 @@ int main() {
                     break;
                 }
             }
-        } else if (opcion == 3) {
+        } else if (opcion == 3)
+        {
             string codigoEstacion, codigoSurtidor;
             int litrosE, litrosP, litrosR;
             cout << "Ingrese el codigo de la estacion: ";
@@ -285,11 +304,11 @@ int main() {
             cin >> codigoEstacion;
             for (int i = 0; i < numeroEstaciones; i++) {
                 if (estaciones[i]->getCodigo() == codigoEstacion) {
-                    cout << "Ingrese el precio de E: ";
+                    cout << "Ingrese el precio de combustible E: ";
                     cin >> precioE;
-                    cout << "Ingrese el precio de P: ";
+                    cout << "Ingrese el precio de combustible P: ";
                     cin >> precioP;
-                    cout << "Ingrese el precio de R: ";
+                    cout << "Ingrese el precio de combustible R: ";
                     cin >> precioR;
                     estaciones[i]->fijarPrecios(precioE, precioP, precioR);
                     break;
@@ -305,14 +324,14 @@ int main() {
             int cantidad;
             cout << "Ingrese el codigo de la estacion: ";
             cin >> codigoEstacion;
-            cout << "Ingrese el codigo del surtidor: ";
-            cin >> codigoSurtidor;
-            cout << "Ingrese el tipo de combustible (E, P, R): ";
-            cin >> tipoCombustible;
-            cout << "Ingrese la cantidad a vender: ";
-            cin >> cantidad;
             for (int i = 0; i < numeroEstaciones; i++) {
                 if (estaciones[i]->getCodigo() == codigoEstacion) {
+                    cout << "Ingrese el codigo del surtidor: ";
+                    cin >> codigoSurtidor;
+                    cout << "Ingrese el tipo de combustible (E, P, R): ";
+                    cin >> tipoCombustible;
+                    cout << "Ingrese la cantidad de litros: ";
+                    cin >> cantidad;
                     estaciones[i]->simularVenta(codigoSurtidor, tipoCombustible, cantidad);
                     break;
                 }
@@ -320,9 +339,6 @@ int main() {
         }
     } while (opcion != 0);
 
-    for (int i = 0; i < numeroEstaciones; i++) {
-        delete estaciones[i];
-    }
-
+    cout << "Saliendo del programa..." << endl;
     return 0;
 }
