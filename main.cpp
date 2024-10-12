@@ -22,26 +22,25 @@ public:
         cout << "Surtidor " << codigo << " desactivado." << endl;
     }
 
-    void activar()
-    {
+    void activar() {
         activo = true;
         cout << "Surtidor " << codigo << " activado." << endl;
     }
 
-    void simularVenta(char tipoCombustible, int cantidad)
-    {
-        if (!activo)
-        {
+    void simularVenta(char tipoCombustible, int cantidad, Surtidor* surtidores[], int numeroSurtidores) {
+        if (!activo) {
             cout << "Surtidor desactivado, no se puede realizar la venta." << endl;
             return;
         }
 
-        if (tipoCombustible == 'E')
-        {
-            if (litrosE >= cantidad)
-            {
+        ofstream archivo("ventas.txt", ios::app);
+
+        if (tipoCombustible == 'E') {
+            if (litrosE >= cantidad) {
                 litrosE -= cantidad;
                 cout << "Venta realizada de " << cantidad << " litros de E." << endl;
+
+                archivo << "Venta en surtidor " << codigo << ": " << cantidad << " litros de E." << endl;
             } else {
                 cout << "No hay suficiente combustible tipo E." << endl;
             }
@@ -49,6 +48,8 @@ public:
             if (litrosP >= cantidad) {
                 litrosP -= cantidad;
                 cout << "Venta realizada de " << cantidad << " litros de P." << endl;
+
+                archivo << "Venta en surtidor " << codigo << ": " << cantidad << " litros de P." << endl;
             } else {
                 cout << "No hay suficiente combustible tipo P." << endl;
             }
@@ -56,18 +57,33 @@ public:
             if (litrosR >= cantidad) {
                 litrosR -= cantidad;
                 cout << "Venta realizada de " << cantidad << " litros de R." << endl;
+
+                archivo << "Venta en surtidor " << codigo << ": " << cantidad << " litros de R." << endl;
             } else {
                 cout << "No hay suficiente combustible tipo R." << endl;
             }
         } else {
-            cout << "Tipo de combustible no valido." << endl;
+            cout << "Tipo de combustible no válido." << endl;
         }
+
+        archivo << "Registro de todos los surtidores:\n";
+        for (int i = 0; i < numeroSurtidores; i++) {
+            archivo << "Surtidor: " << surtidores[i]->getCodigo()
+            << " - Litros E: " << surtidores[i]->getLitrosE()
+            << " - Litros P: " << surtidores[i]->getLitrosP()
+            << " - Litros R: " << surtidores[i]->getLitrosR()
+            << endl;
+        }
+
+        archivo.close();
+        cout << "Registro de ventas guardado en 'ventas.txt'.\n" << endl;
     }
-    string getCodigo() const {return codigo;}
-    int getLitrosE() const {return litrosE;}
-    int getLitrosP() const {return litrosP;}
-    int getLitrosR() const {return litrosR;}
-    bool isActivo() const {return activo;}
+
+    string getCodigo() const { return codigo; }
+    int getLitrosE() const { return litrosE; }
+    int getLitrosP() const { return litrosP; }
+    int getLitrosR() const { return litrosR; }
+    bool isActivo() const { return activo; }
 };
 
 class Estacion
@@ -78,8 +94,10 @@ private:
     Surtidor* surtidores[10];
     int numeroSurtidores;
     float precioE, precioP, precioR;
+
 public:
     Estacion(string c) : codigo(c), numeroSurtidores(0), precioE(0), precioP(0), precioR(0) {}
+
     void agregarSurtidor(string codigoSurtidor, int litrosE, int litrosP, int litrosR) {
         if (numeroSurtidores < 10)
         {
@@ -109,11 +127,12 @@ public:
         cout << "Surtidor no encontrado." << endl;
     }
 
-    void guardarEstacion()
+    void guardar()
     {
         ofstream archivo("Estaciones.txt", ios::app);
         archivo << "Estacion: " << codigo << endl;
-        for (int i = 0; i < numeroSurtidores; i++) {
+        for (int i = 0; i < numeroSurtidores; i++)
+        {
             archivo << "Surtidor: " << surtidores[i]->getCodigo()
             << " E: " << surtidores[i]->getLitrosE()
             << " P: " << surtidores[i]->getLitrosP()
@@ -152,12 +171,13 @@ public:
     void simularVenta(string codigoSurtidor, char tipoCombustible, int cantidad) {
         for (int i = 0; i < numeroSurtidores; i++) {
             if (surtidores[i]->getCodigo() == codigoSurtidor) {
-                surtidores[i]->simularVenta(tipoCombustible, cantidad);
+                surtidores[i]->simularVenta(tipoCombustible, cantidad, surtidores, numeroSurtidores);
                 return;
             }
         }
         cout << "Surtidor no encontrado." << endl;
     }
+
 
     void fijarPrecios(float e, float p, float r) {
         precioE = e;
@@ -315,8 +335,9 @@ int main()
                 }
             }
         } else if (opcion == 8) {
-            for (int i = 0; i < numeroEstaciones; i++) {
-                estaciones[i]->guardarEstacion();
+            for (int i = 0; i < numeroEstaciones; i++)
+            {
+                estaciones[i]->guardar();
             }
         } else if (opcion == 9) {
             string codigoEstacion, codigoSurtidor;
@@ -338,11 +359,8 @@ int main()
             }
         }
     } while (opcion != 0);
-    
-    for (int i = 0; i < numeroEstaciones; i++)
-    {
+    for (int i = 0; i < numeroEstaciones; i++) {
         delete estaciones[i];
-    }
 
     cout << "Saliendo del programa..." << endl;
     return 0;
