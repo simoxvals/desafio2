@@ -1,0 +1,9 @@
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/DesafioII.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/DesafioII_autogen_timestamp_deps.dir
+C:/Users/HP/OneDrive/green/green/Ingenieria/II/Informatica II/Desafios/Desafío II/DesafioII/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/DesafioII_autogen.dir
