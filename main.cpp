@@ -11,7 +11,6 @@ private:
     int litrosE;
     int litrosP;
     int litrosR;
-    string nombre;
     bool activo;
 
 public:
@@ -28,7 +27,7 @@ public:
         cout << "Surtidor " << codigo << " activado." << endl;
     }
 
-    void simularVenta(char tipoCombustible, int cantidad, Surtidor* surtidores[], int numeroSurtidores, string nombre) {
+    void simularVenta(char tipoCombustible, int cantidad, Surtidor* surtidores[], int numeroSurtidores, string nombre, int precioE, int precioP, int precioR, string dia) {
         if (!activo) {
             cout << "Surtidor desactivado, no se puede realizar la venta." << endl;
             return;
@@ -41,39 +40,42 @@ public:
             if (cantidad > litrosE && litrosE > 0)
             {
                 litrosE = 0;
-                cout << "Venta realizada de " << litrosE << " litros de EcoExtra en la estacion: " << nombre << endl;
+                cout << "\nVenta realizada de " << litrosE << " litros de EcoExtra en la estacion -" << nombre<< "- con un costo de "<< precioE*litrosE<< "$" << " Fecha: " << dia << endl;
 
-                archivo << "Venta en surtidor " << codigo << ": " << litrosE << " litros de EcoExtra en la estacion: " << nombre<< endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << litrosE << " litros de EcoExtra en la estacion -" << nombre<< "- con un costo de "<< precioE*litrosE<<"$" << " Fecha: " << dia << endl;
+
 
             }
             else if (litrosE >= cantidad)
             {
                 litrosE -= cantidad;
-                cout << "Venta realizada de " << cantidad << " litros de EcoExtra en la estacion: "<< nombre << endl;
+                cout << "\nVenta realizada de " << cantidad << " litros de EcoExtra en la estacion -"<< nombre << "- con un costo de " << precioE*cantidad<< "$" << " Fecha: " << dia << endl;
 
-                archivo << "Venta en surtidor " << codigo << ": " << cantidad << " litros de EcoExtra en la estacion: " << nombre << endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << cantidad << " litros de EcoExtra en la estacion -" << nombre << "- con un costo de " << precioE*cantidad<< "$" << " Fecha: " << dia << endl;
             }
             else
             {
                 cout << "No hay suficiente combustible tipo EcoExtra en la estacion: " << nombre << endl;
             }
         }
+
+
         else if (tipoCombustible == 'P')
         {
             if (cantidad > litrosP && litrosP > 0)
             {
                 litrosP = 0;
-                cout << "Venta realizada de " << litrosP << " litros de Premium en la estacion: " << nombre << endl;
+                cout << "\nVenta realizada de " << litrosP << " litros de Premium en la estacion -" << nombre << "- con un costo de " << precioP*litrosP << "$" << " Fecha: " << dia << endl;
 
-                archivo << "Venta en surtidor " << codigo << ": " << litrosP << " litros de Premium en la estacion: "<< nombre  << endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << litrosP << " litros de Premium en la estacion -"<< nombre  << "- con un costo de " << precioP*litrosP << "$"<< " Fecha: " << dia << endl;
 
             }
             else if (litrosP >= cantidad)
             {
                 litrosP -= cantidad;
-                cout << "Venta realizada de " << cantidad << " litros de Premium en la estacion: "<< nombre << endl;
+                cout << "\nVenta realizada de " << cantidad << " litros de Premium en la estacion -"<< nombre << "- con un costo de " << precioP*cantidad << "$" << " Fecha: " << dia << endl;
 
-                archivo << "Venta en surtidor " << codigo << ": " << cantidad << " litros de Premium en la estacion: "<<nombre << endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << cantidad << " litros de Premium en la estacion -" <<nombre << "- con un costo de"<< precioP*cantidad<< "$" << " Fecha: " << dia << endl;
             }
             else
             {
@@ -85,17 +87,17 @@ public:
             if (cantidad > litrosR && litrosR > 0)
             {
                 litrosR = 0;
-                cout << "Venta realizada de " << litrosR << " litros de Regular en la estacion: " << nombre << endl;
+                cout << "\nVenta realizada de " << litrosR << " litros de Regular en la estacion -" << nombre << "- con un costo de " << precioR*litrosR << "$" << " Fecha: " << dia << endl;
 
-                archivo << "Venta en surtidor " << codigo << ": " << litrosR << " litros de Regular en la estacion: "<< nombre << endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << litrosR << " litros de Regular en la estacion -" << nombre << "- con un costo de " << precioR*litrosR << "$" << " Fecha: " << dia << endl;
 
             }
             else if (litrosR >= cantidad)
             {
                 litrosR -= cantidad;
-                cout << "Venta realizada de " << cantidad << " litros de Regular en la estacion: " << nombre << endl;
+                cout << "\nVenta realizada de " << cantidad << " litros de Regular en la estacion -" << nombre << "- con un costo de " << precioR*cantidad<< "$" << " Fecha: " << dia << endl;
 
-                archivo << "Venta en surtidor " << codigo << ": " << cantidad << " litros de Regular en la estacion: "<< nombre << endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << cantidad << " litros de Regular en la estacion -" << nombre << "- con un costo de " << precioR*cantidad<< "$" << " Fecha: " << dia << endl;
             }
             else
             {
@@ -135,7 +137,7 @@ private:
     int numeroSurtidores;
     string ubicacion;
     Surtidor* surtidores[10];
-    float precioE, precioP, precioR;
+    int precioE, precioP, precioR;
 
 public:
     Estacion(string c, string u, string n) : codigo(c),ubicacion(u), nombre(n), numeroSurtidores(0), precioE(0), precioP(0), precioR(0){}
@@ -167,7 +169,23 @@ public:
         return nombre;
     }
 
-    int getNumeroSurtidores() const {
+    int getPrecioP() const
+    {
+        return precioP;
+    }
+
+    int getPrecioE() const
+    {
+        return precioE;
+    }
+
+    int getPrecioR() const
+    {
+        return precioR;
+    }
+
+    int getNumeroSurtidores() const
+    {
         return numeroSurtidores;
     }
 
@@ -280,17 +298,17 @@ public:
     }
 
 
-    void simularVenta(string codigoSurtidor, char tipoCombustible, int cantidad) {
+    void simularVenta(string codigoSurtidor, char tipoCombustible, int cantidad, string dia) {
         for (int i = 0; i < numeroSurtidores; i++) {
             if (surtidores[i]->getCodigo() == codigoSurtidor) {
-                surtidores[i]->simularVenta(tipoCombustible, cantidad, surtidores, numeroSurtidores, getNombre());
+                surtidores[i]->simularVenta(tipoCombustible, cantidad, surtidores, numeroSurtidores, getNombre(), getPrecioE(), getPrecioP(), getPrecioR(), dia);
                 return;
             }
         }
         cout << "Surtidor no encontrado." << endl;
     }
 
-    void fijarPrecios(float e, float p, float r) {
+    void fijarPrecios(int e, int p, int r) {
         precioE = e;
         precioP = p;
         precioR = r;
@@ -306,7 +324,7 @@ void mostrarMenu() {
     cout << "4. Eliminar surtidor de una estacion\n";
     cout << "5. Desactivar surtidor\n";
     cout << "6. Activar surtidor\n";
-    cout << "7. Fijar precios de combustibles\n";
+    cout << "7. Fijar precios de combustibles segun la estacion\n";
     cout << "8. Guardar estaciones y surtidores\n";
     cout << "9. Simular venta\n";
     cout << "10.Ver historico de ventas por surtidor\n";
@@ -493,16 +511,16 @@ int main()
         } else if (opcion == 7)
         {
             string codigoEstacion;
-            float precioE, precioP, precioR;
+            int precioE, precioP, precioR;
             cout << "Ingrese el codigo de la estacion: ";
             cin >> codigoEstacion;
             for (int i = 0; i < numeroEstaciones; i++) {
                 if (estaciones[i]->getCodigo() == codigoEstacion) {
-                    cout << "Ingrese el precio de combustible E: ";
+                    cout << "Ingrese el precio de combustible EcoExtra por litro: ";
                     cin >> precioE;
-                    cout << "Ingrese el precio de combustible P: ";
+                    cout << "Ingrese el precio de combustible Premium por litro: ";
                     cin >> precioP;
-                    cout << "Ingrese el precio de combustible R: ";
+                    cout << "Ingrese el precio de combustible Regular por litro: ";
                     cin >> precioR;
                     estaciones[i]->fijarPrecios(precioE, precioP, precioR);
                     break;
@@ -523,6 +541,10 @@ int main()
             string codigoEstacion, codigoSurtidor;
             char tipoCombustible;
             int cantidad;
+            string dia;
+
+            cout << "Ingresar dia y mes de la transaccion: ";
+            cin >> dia;
             cout << "Ingrese el codigo de la estacion: ";
             cin >> codigoEstacion;
             for (int i = 0; i < numeroEstaciones; i++) {
@@ -533,7 +555,7 @@ int main()
                     cin >> tipoCombustible;
                     cout << "Ingrese la cantidad de litros: ";
                     cin >> cantidad;
-                    estaciones[i]->simularVenta(codigoSurtidor, tipoCombustible, cantidad);
+                    estaciones[i]->simularVenta(codigoSurtidor, tipoCombustible, cantidad, dia);
                     break;
                 }
             }
@@ -546,7 +568,7 @@ int main()
             if (!archivo.is_open()) {
                 cout << "Error al abrir el archivo de ventas." << endl;
             } else {
-                cout << "Registro de ventas:\n";
+                cout << "\nRegistro de ventas:\n";
                 while (getline(archivo, linea)) {
                     if (linea.find("Venta en surtidor") != string::npos) {
                         cout << linea << endl;
