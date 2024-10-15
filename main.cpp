@@ -27,7 +27,7 @@ public:
         cout << "Surtidor " << codigo << " activado." << endl;
     }
 
-    void simularVenta(char tipoCombustible, int cantidad, Surtidor* surtidores[], int numeroSurtidores, string nombre, int precioE, int precioP, int precioR, string dia) {
+    void simularVenta(char tipoCombustible, int &cantidad, Surtidor* surtidores[], int numeroSurtidores, string nombre, int precioE, int precioP, int precioR, string dia) {
         if (!activo) {
             cout << "Surtidor desactivado, no se puede realizar la venta." << endl;
             return;
@@ -75,7 +75,7 @@ public:
                 litrosP -= cantidad;
                 cout << "\nVenta realizada de " << cantidad << " litros de Premium en la estacion -"<< nombre << "- con un costo de " << precioP*cantidad << "$" << " Fecha: " << dia << endl;
 
-                archivo << "\nVenta en surtidor " << codigo << ": " << cantidad << " litros de Premium en la estacion -" <<nombre << "- con un costo de"<< precioP*cantidad<< "$" << " Fecha: " << dia << endl;
+                archivo << "\nVenta en surtidor " << codigo << ": " << cantidad << " litros de Premium en la estacion -" <<nombre << "- con un costo de "<< precioP*cantidad<< "$" << " Fecha: " << dia << endl;
             }
             else
             {
@@ -206,7 +206,7 @@ public:
     }
 
 
-    void guardar(Estacion* estaciones[], int numeroEstaciones, Surtidor* surtidores[], int numeroSurtidores) {
+    void guardar(Estacion* estaciones[], int numeroEstaciones, Surtidor* surtidores[], int &numeroSurtidores) {
         ofstream archivo("Estaciones.txt", ios::app);
 
         for (int i = 0; i < numeroEstaciones; i++) {
@@ -251,7 +251,7 @@ public:
     }
 
 
-    void desactivarSurtidor(Estacion* estaciones[], int numeroEstaciones, string& codigoEstacion,string& codigoSurtidor)
+    void desactivarSurtidor(Estacion* estaciones[], int &numeroEstaciones, string& codigoEstacion,string& codigoSurtidor)
     {
         for (int i = 0; i < numeroEstaciones; i++)
         {
@@ -274,7 +274,7 @@ public:
         cout << "Error: Estacion con codigo " << codigoEstacion << " no encontrada." << endl;
     }
 
-    void activarSurtidor(Estacion* estaciones[], int numeroEstaciones, string& codigoEstacion, string& codigoSurtidor)
+    void activarSurtidor(Estacion* estaciones[], int &numeroEstaciones, string& codigoEstacion, string& codigoSurtidor)
     {
         for (int i = 0; i < numeroEstaciones; i++)
         {
@@ -298,7 +298,7 @@ public:
     }
 
 
-    void simularVenta(string codigoSurtidor, char tipoCombustible, int cantidad, string dia) {
+    void simularVenta(string &codigoSurtidor, char tipoCombustible, int cantidad, string dia) {
         for (int i = 0; i < numeroSurtidores; i++) {
             if (surtidores[i]->getCodigo() == codigoSurtidor) {
                 surtidores[i]->simularVenta(tipoCombustible, cantidad, surtidores, numeroSurtidores, getNombre(), getPrecioE(), getPrecioP(), getPrecioR(), dia);
@@ -590,7 +590,6 @@ int main()
     {
         delete surtidores[j];
     }
-
 
     cout << "Saliendo del programa..." << endl;
     return 0;
